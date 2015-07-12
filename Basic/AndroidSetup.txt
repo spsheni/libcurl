@@ -1,0 +1,36 @@
+# Configure and build for Android - armeabi 
+Building libcurl sources involves following simple steps,
+1. Download libcurl source
+2. Setup toolchain variables
+3. Configure libcurl sources
+4. make
+
+Download libcurl source:
+    Download curl-7.43.0.zip source archive. Extract the archive contents.
+
+Setup toolchain vars:
+As per your ndk installation, set ndk home path in env var 'ANDROID_NDK_HOME'. Then use following section in your bash script;
+
+ANDROID_SYSROOT=${ANDROID_NDK_HOME}/platforms/android-19/arch-arm
+export PATH="${ANDROID_NDK_HOME}/toolchains/arm-linux-androideabi-4.8/prebuilt/darwin-x86_64/bin:${PATH}"
+
+export CPP=arm-linux-androideabi-cpp
+export CC=arm-linux-androideabi-gcc
+export CXX=arm-linux-androideabi-g++
+export LD=arm-linux-androideabi-ld
+export AS=arm-linux-androideabi-as
+export AR=arm-linux-androideabi-ar
+export RANLIB=arm-linux-androideabi-ranlib
+
+export CPPFLAGS=--sysroot=${ANDROID_SYSROOT} -I${ANDROID_SYSROOT}/usr/include
+export CFLAGS=--sysroot=${ANDROID_SYSROOT}
+export CXXFLAGS=--sysroot=${ANDROID_SYSROOT}
+export LDFLAGS= --sysroot=${ANDROID_SYSROOT}
+
+
+Configure libcurl sources
+'cd' to curl extracted folder to configure;
+
+./configure --host=arm-linux-androideabi --disable-shared --enable-static --without-ssl --without-libssh2 --without-ca-bundle --without-ldap --disable-ldap
+
+make
